@@ -1,0 +1,25 @@
+::ng-deep
+  .p-card-header {
+    max-height: 300px;
+    overflow: hidden;
+  }
+
+header {
+  height: 300px;
+  filter: blur(4);
+  overflow: hidden;
+
+  img {
+    object-fit: cover;
+    width: 100%;
+    filter: blur(2px) brightness(40%);
+  }
+
+  .search-area {
+    position: absolute;
+  }
+}
+
+#main {
+  background-color: #bfb9c4;
+}

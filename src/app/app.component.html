@@ -1,0 +1,60 @@
+<main class="flex flex-column align-items-center" id="main">
+  <header class="flex flex-column align-items-center justify-content-center w-full">
+    <img src="https://img.freepik.com/free-photo/movie-background-collage_23-2149876010.jpg?t=st=1715463069~exp=1715466669~hmac=f6e982f9626712e113d96187a4fa1bd83b9942389f14ab1f59a44cfaaac62ca2&w=1380" alt="">
+    <div class="search-area">
+      <h1 class="text-50 text-5xl">Search movie</h1>
+      <div class="flex flex-column align-items-center">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input type="text" pInputText placeholder="Search for movies" (input)="onSearchQueryInput($event)"/>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <ng-container *ngIf="result?.Search?.length && !result?.Error">
+    <h2>Top results:</h2>
+    <div class="grid justify-content-center">
+      <p-card
+        (click)="showDetails(movie.imdbID)"
+        *ngFor="let movie of result.Search"
+        [header]="movie?.Title"
+        [subheader]="movie?.Year"
+        class="col-3 m-1"
+        styleClass="p-card-shadow"
+      >
+        <ng-template pTemplate="header">
+            <img alt="Card" [src]="movie?.Poster" [style]="{overflow: 'hidden'}">
+        </ng-template>
+      </p-card>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isSearchActive">
+    <h4 class="text-600 m-5"></h4>
+  </ng-container>
+
+  <ng-container *ngIf="loading">
+    <p-progressSpinner class="m-5"></p-progressSpinner>
+  </ng-container>
+
+  <ng-container *ngIf="result?.Response === 'False' && isSearchActive && !loading">
+    <h3 class="text-700 m-5">No results</h3>
+  </ng-container>
+
+  <p-dialog [header]="selectedMovie?.Title" [(visible)]="dialogVisible" [modal]="true" [style]="{width: '70vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="grid justify-content-center">
+      <div class="poster col-4">
+        <img [src]="selectedMovie?.Poster" alt="">
+      </div>
+      <div class="col-8 surface-200" [style]="{overflow: 'scroll'}">
+        <pre>{{selectedMovie | json}}</pre>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="dialogVisible=false" label="Ok" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</main>
